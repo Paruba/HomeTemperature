@@ -1,0 +1,25 @@
+﻿@attribute [Route(Boiler.Mobile.Shared.Routes.Thermometer.Thermometers)]
+@using Boiler.Mobile.Shared
+@using Boiler.Mobile.Framework.Fluxor
+@using Boiler.Mobile.Models.Thermometer
+@inherits AuthFluxorPage
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<ThermometerModel>>>(ServerReload))" @ref="@_table" CurrentPage="@CurrentPage" T="ThermometerModel" OnRowClick="@OnRowClick" Items="@PageState.Value.Thermometers" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@PageState.Value.Loading" LoadingProgressColor="Color.Info">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Přehled teploměrů</MudText>
+        <MudTextField @bind-Value="_searchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-5"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Název</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Název">@context.Name</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudPagination @ref=_pagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+    </PagerContent>
+</MudTable>
+@if (!string.IsNullOrEmpty(PageState.Value.ErrorMessage))
+{
+    <MudAlert Severity="Severity.Error" Square="true" Class="my-2">@PageState.Value.ErrorMessage</MudAlert>
+}

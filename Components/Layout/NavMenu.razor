@@ -1,0 +1,28 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Boiler.Mobile</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+﻿<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+                <MudNavMenu Color="Color.Info">
+                    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="">Domů</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.Thermostat" Href="@Boiler.Mobile.Shared.Routes.Thermometer.Thermometers">Teploměry</MudNavLink>
+                    <MudNavLink Icon="@Icons.Material.Filled.Logout" Href="@Boiler.Mobile.Shared.Routes.User.Logout">Logout</MudNavLink>
+                </MudNavMenu>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+                <MudNavMenu Color="Color.Info">
+                    <MudNavLink Icon="@Icons.Material.Filled.Person" Href="login">Login</MudNavLink>
+                </MudNavMenu>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
+

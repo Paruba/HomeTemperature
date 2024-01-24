@@ -1,0 +1,43 @@
+@attribute [Route(Boiler.Mobile.Shared.Routes.Temperatures.Base)]
+@using Boiler.Mobile.Models.Thermometer
+@using Boiler.Mobile.Framework.Fluxor
+@inherits AuthFluxorPage
+<div class="mt-20">
+    <!-- Typography for Temperature -->
+    <MudText Typo="Typo.h4">
+        @if (PageState.Value.CurrentTemperature != null)
+        {
+            @($"{PageState.Value.CurrentTemperature} (°C)")
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+    </MudText>
+
+    <!-- Graph Component (Placeholder) -->
+    <div class="mt-10">
+        <MudChart ChartType="ChartType.Line" ChartSeries="@Series" SelectedIndex="2" XAxisLabels="@XAxisLabels" Width="100%" Height="350px" ChartOptions="@Options" />
+    </div>
+
+    <!-- Table Component -->
+    <div class="mt-10">
+        <MudTable ServerData="@(new Func<TableState, Task<TableData<TemperatureModel>>>(ServerReload))" @ref="@_table" CurrentPage="@CurrentPage" T="TemperatureModel" Items="@PageState.Value.TemperatureData.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@PageState.Value.Loading" LoadingProgressColor="Color.Info">
+            <HeaderContent>
+                <MudTh>Èas</MudTh>
+                <MudTh>Teplota</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Èas">@context.Time</MudTd>
+                <MudTd DataLabel="Teplota">@context.Value</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudPagination @ref=_pagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+            </PagerContent>
+        </MudTable>
+    </div>
+    @if (!string.IsNullOrEmpty(PageState.Value.ErrorMessage))
+    {
+        <MudAlert Severity="Severity.Error" Square="true" Class="my-2">@PageState.Value.ErrorMessage</MudAlert>
+    }
+</div>

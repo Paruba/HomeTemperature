@@ -1,0 +1,10 @@
+@inject NavigationManager UriHelper
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        UriHelper.NavigateTo("/login");
+    }
+}

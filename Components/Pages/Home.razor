@@ -1,0 +1,12 @@
+﻿@page "/"
+
+﻿<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            <Boiler.Mobile.Components.Pages.Shared.RedirectTo UrlParameter="thermometers" />
+        </Authorized>
+        <NotAuthorized>
+            <Boiler.Mobile.Components.Pages.Shared.RedirectoToLogin />
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
